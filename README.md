@@ -1,6 +1,6 @@
 # RandoMapMod
-![GitHub release (latest by date)](https://img.shields.io/github/v/release/syyePhenomenol/RandoMapMod)
-![Downloads GitHub all releases](https://img.shields.io/github/downloads/syyePhenomenol/RandoMapMod/total)
+![GitHub release (latest by date)](https://img.shields.io/github/v/release/wdghzym/RandoMapMod)
+![Downloads GitHub all releases](https://img.shields.io/github/downloads/wdghzym/RandoMapMod/total)
 
 RandoMapMod is a Hollow Knight mod for Randomizer 4 that adds many new features to the map.
 
