@@ -283,7 +283,7 @@ namespace RandoMapMod.Pins
 
         private protected virtual string GetLogicText()
         {
-            return Logic is not null ? $"\n\n{"Logic".L()}: {Logic.InfixSource}" : "";
+            return Logic is not null ? $"\n\n{"Logic".L()}: {Logic.InfixSource.Replace($"{SceneName}[","[").LL()}" : "";
         }
 
         private protected virtual string GetHintText()

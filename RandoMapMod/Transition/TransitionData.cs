@@ -1,6 +1,8 @@
 ﻿using System.Collections.ObjectModel;
+using System.Xml.Linq;
 using MapChanger;
 using RandoMapMod.Localization;
+using RandomizerCore.Logic;
 using RandomizerMod.RandomizerData;
 using RD = RandomizerMod.RandomizerData.Data;
 using RM = RandomizerMod.RandomizerMod;
@@ -209,6 +211,8 @@ namespace RandoMapMod.Transition
                 {
                     text += $"{kvp.Key.DoorName.LC()} -> {$"{kvp.Value.SceneName.LC()}[{kvp.Value.DoorName.LC()}]"}";
                 }
+                if (RM.RS.TrackerData.lm.TransitionLookup.TryGetValue($"{kvp.Key.SceneName}[{kvp.Key.DoorName}]", out LogicTransition ld))
+                    text += $"\n   {"Logic".L()}: {ld.logic.InfixSource.Replace($"{kvp.Key.SceneName}[", "[").LL()}";
             }
 
             return text;
