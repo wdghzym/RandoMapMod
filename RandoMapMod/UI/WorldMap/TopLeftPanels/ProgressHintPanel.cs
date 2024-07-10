@@ -75,7 +75,7 @@ namespace RandoMapMod.UI
         internal void UpdateHint()
         {
             UpdateLocation();
-            
+
             UpdateText(true);
         }
 
@@ -103,7 +103,7 @@ namespace RandoMapMod.UI
             mu.AddEntries(ctx.Vanilla.Select(v => new DelegateUpdateEntry(v.Location, pm =>
             {
                 pm.Add(v.Item, v.Location);
-                
+
                 if (v.Location is ILocationWaypoint ilw)
                 {
                     // RandoMapMod.Instance.LogDebug($"Adding vanilla reachable effect: {v.Location.Name}");
@@ -200,8 +200,9 @@ namespace RandoMapMod.UI
                     .Where(p => !p.HasTag<CostTag>() || p.GetTag<CostTag>().Cost.CanPay())
                     .Select(p => p.RandoPlacement())
                 )
-                .Where(p => p.Item is not null && p.Item.Required && !td.obtainedItems.Contains(p.Index));
-
+                .Where(p => p.Item is not null && ((p.Item.Required&& p.Item.Name != "Rancid_Egg") || p.Item.Name == "Void_Heart")&& !td.obtainedItems.Contains(p.Index));
+            // && ShowName(p.Item.Name)
+            //wdbl Rancid_Egg Void_Heart 
             RandoModLocation noImmediateProgressLocation = null;
             bool containsSelectedLocation = false;
 
@@ -233,6 +234,17 @@ namespace RandoMapMod.UI
 
             selectedLocation = noImmediateProgressLocation ?? (containsSelectedLocation ? selectedLocation : null);
         }
+        /*
+        List<string> showname = new List<string>();
+        private bool ShowName(string name)
+        {
+            if (!showname.Contains(name))
+            {
+                showname.Add(name);
+                RandoMapMod.Instance.Log(name);
+            }
+            return true;
+        }*/
 
         private void UpdateText(bool afterRoll)
         {
