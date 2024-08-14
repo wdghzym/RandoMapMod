@@ -1,7 +1,10 @@
 ﻿using ConnectionMetadataInjector;
+using ConnectionMetadataInjector.Util;
 using ItemChanger;
 using MapChanger;
 using RandoMapMod.Settings;
+using System.Text.RegularExpressions;
+using System.Xml.Linq;
 using SD = ConnectionMetadataInjector.SupplementalMetadata;
 
 namespace RandoMapMod.Pins
@@ -131,20 +134,41 @@ namespace RandoMapMod.Pins
 
             if (SD.Of(item).Get(InteropProperties.ItemPinSpriteKey) is string key)
             {
+                //RandoMapMod.Instance.LogError($"key -{key}");
                 sprite = GetSprite(key);
             }
             else if (SD.Of(item).Get(InteropProperties.ItemPinSprite) is ISprite iSprite)
             {
+                //RandoMapMod.Instance.LogError($"key -{placement.Name}");
                 sprite = new(iSprite, SD.Of(item).Get(InteropProperties.ItemPinSpriteSize));
             }
             else
             {
-                sprite = GetSprite(SD.Of(item).Get(InjectedProps.ItemPoolGroup));
+                //wdblzym 多世界下 物品名称为 {username}'s_{itemname} 无法的到正常图标
+                //RandoMapMod.Instance.LogError($"key itemName-{item.name} {SD.Of(item).Get(InjectedProps.ItemPoolGroup)}");
+                string sn = SD.Of(item).Get(InjectedProps.ItemPoolGroup);
+                if (sn=="Other")
+                {
+                    sn = SD.Of(item).Get(ItemPoolGroup);
+                }
+                sprite = GetSprite(sn);
+                
             }
 
             ConnectionPinSprites.Add(item, sprite);
             
             return sprite;
+        }
+        public static readonly MetadataProperty<AbstractItem, string> ItemPoolGroup = new MetadataProperty<AbstractItem, string>("PoolGroup", GetDefaultItemPoolGroup);
+
+        private static string GetDefaultItemPoolGroup(AbstractItem item)
+        {
+            string itemName = item.name;
+            int idx = item.name.IndexOf("'s_");
+            if (idx >= 0)
+                itemName = item.name.Substring(idx+3);
+            //RandoMapMod.Instance.LogError($"  {idx}   itemName-{itemName}");
+            return SubcategoryFinder.GetItemPoolGroup(itemName).FriendlyName();
         }
     }
 }
