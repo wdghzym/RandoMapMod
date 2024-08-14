@@ -145,7 +145,7 @@ namespace RandoMapMod.Pins
             else
             {
                 //wdblzym 多世界下 物品名称为 {username}'s_{itemname} 无法的到正常图标
-                RandoMapMod.Instance.LogError($"key itemName-{item.name} {SD.Of(item).Get(InjectedProps.ItemPoolGroup)}");
+                //RandoMapMod.Instance.LogError($"key itemName-{item.name} {SD.Of(item).Get(InjectedProps.ItemPoolGroup)}");
                 string sn = SD.Of(item).Get(InjectedProps.ItemPoolGroup);
                 if (sn=="Other")
                 {
